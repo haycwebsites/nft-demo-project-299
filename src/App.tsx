@@ -1,19 +1,28 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HaycProvider } from './hayc/config-context';
-import { Preloader } from './components/Preloader';
 import { ScrollToTop } from './components/ScrollToTop';
-import { useState, useCallback } from 'react';
+import IndexPage from './pages/IndexPage';
+import AboutPage from './pages/AboutPage';
+import BlogPage from './pages/BlogPage';
+import BlogDetailsPage from './pages/BlogDetailsPage';
+import ContactPage from './pages/ContactPage';
+import ServicesPage from './pages/ServicesPage';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const handlePreloaderComplete = useCallback(() => setIsLoading(false), []);
-
   return (
     <HaycProvider>
-      {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
-      <div className={`min-h-screen bg-[#141414] ${isLoading ? 'overflow-hidden max-h-screen' : ''}`}>
-        {/* sections go here */}
-      </div>
-      <ScrollToTop />
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<IndexPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog-details" element={<BlogDetailsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
     </HaycProvider>
   );
 }
